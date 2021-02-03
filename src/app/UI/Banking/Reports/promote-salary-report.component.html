@@ -1,0 +1,356 @@
+<div class="row">
+  <div class="col-md-6 col-xl-6 ">
+    <p class="bc-2">Promoter Salary</p>
+  </div>
+</div>
+<div class="row mt-2">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+      <form [formGroup]="PromoterSalaryForm" autocomplete="off">
+        <div class="row mt-1">
+          <div class="col-md-4 col-xl-4">
+            <label id="pagentid" title="Agent Name">Agent Name</label>
+            <select class="form-control" formControlName="pagentid" (change)="agentnamechange($event)" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.pagentid }">
+              <option ng-selected="selected" value="0">All</option>
+              <option *ngFor="let i of ShowAgentnames" [value]="i.pagentid">{{i.pagentname}}</option>
+            </select>
+            <div class="invalid-feedback">
+              <span *ngIf="PromoterSalaryErrors.pagentid">{{PromoterSalaryErrors?.pagentid}}</span>
+
+            </div>
+            </div>
+            <!-- <div class="col-md-12">
+              <div class="row mt-1">
+                <div class="col-md-2 col-xl-2">
+                  <div class="">
+                    <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                      <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd1" value="ASON" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.pDatetype }"
+                             (change)="DatetypeChange('ASON')">
+                      <label id="pDatetype" title="AsOn" class="mt-2" for="interestd1"> As On </label>
+                    </div>
+                    <div class="invalid-feedback">
+                      <span *ngIf="PromoterSalaryErrors.pDatetype">{{PromoterSalaryErrors?.pDatetype}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-xl-2">
+                  <div class="">
+                    <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                      <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd2" value="BETWEEN"
+                             (change)="DatetypeChange('BETWEEN')" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.pDatetype}">
+                      <label id="pDatetype" title="Between" class="mt-2" for="interestd2"> Between </label>
+                    </div>
+                    <div class="invalid-feedback">
+                      <span *ngIf="PromoterSalaryErrors.pDatetype">{{PromoterSalaryErrors?.pDatetype}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <!-- <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-2  col-xl-2" *ngIf="showFrommonth">
+                  <div class="">
+                    <label id="pFromMonthOf" title="Month Of">From Month</label>
+
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                           bsDatepicker  formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)"   [ngClass]="{ 'is-invalid': PromoterSalaryErrors.pFromMonthOf }">
+                  
+
+                  </div>
+                </div>
+
+                <div class="col-md-2  col-xl-2" *ngIf="showTomonth">
+                  <div class="">
+                    <label>{{displaytodate}}</label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                           bsDatepicker  formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.pToMonthOf }">
+                    <div *ngIf="validation" class="text-danger">
+                      please select a valid month
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 col-xl-4">
+                    <label id="padjustmenttype" title="Type">Type</label>
+                    <select class="form-control" id="ptype" title="Type" formControlName="ptype" (change)="TypeChange($event)" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.ptype }">
+  
+                      <option value="ALL" ng-selected="selected">All</option>
+                      <option value="PAYMENT" ng-selected="selected">Payment</option>
+                      <option value="NONPAYMENT" ng-selected="selected">Non Payment</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <span *ngIf="PromoterSalaryErrors.ptype">{{PromoterSalaryErrors?.ptype}}</span>
+                    </div>
+  
+                  </div>
+
+                  <div class="justify-content-end mx-3 d-flex">
+                      <div class="form-group mt-4 pt-2">
+                        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowAgentdetails()">
+                          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                          <span *ngIf="!isLoading">
+                            <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                 width="20px">
+                          </span> {{savebutton}}
+                        </a>
+
+                      </div>
+                    </div>
+              
+              </div>
+            </div> -->
+
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-4 col-xl-2 mt-1">
+                  <div class="">
+                    <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                      <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd1" value="ASON" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.pDatetype }"
+                             (change)="DatetypeChange('ASON')">
+                      <label id="pDatetype" title="AsOn" class="mt-2" for="interestd1"> As On </label>
+                    </div>
+                    <div class="invalid-feedback">
+                      <span *ngIf="PromoterSalaryErrors.pDatetype">{{PromoterSalaryErrors?.pDatetype}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-2 mt-1">
+                  <div class="">
+                    <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                      <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd2" value="BETWEEN"
+                             (change)="DatetypeChange('BETWEEN')" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.pDatetype}">
+                      <label id="pDatetype" title="Between" class="mt-2" for="interestd2"> Between </label>
+                    </div>
+                    <div class="invalid-feedback">
+                      <span *ngIf="PromoterSalaryErrors.pDatetype">{{PromoterSalaryErrors?.pDatetype}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-md-12">
+              <div class="row">
+  
+                <div class="col-md-2  col-xl-2" *ngIf="showFrommonth">
+                  <div class="form-group">
+                    <label id="pFromMonthOf" title="Month Of">From Month</label>
+  
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                           bsDatepicker formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)"
+                           (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.pFromMonthOf }">
+   
+                  </div>
+                </div>
+  
+                <div class="col-md-2  col-xl-2" *ngIf="showTomonth">
+                  <div class="form-group">
+                    <label>{{displaytodate}}</label>
+                    <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                           bsDatepicker formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)"
+                           (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.pToMonthOf }"> 
+                   
+                    <div *ngIf="validation" class="text-danger">
+                      please select a valid month
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                  <label id="padjustmenttype" title="Type">Type</label>
+                  <select class="form-control" id="ptype" title="Type" formControlName="ptype" (change)="TypeChange($event)" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.ptype }">
+
+                    <option value="ALL" ng-selected="selected">All</option>
+                    <option value="PAYMENT" ng-selected="selected">Payment</option>
+                    <option value="NONPAYMENT" ng-selected="selected">Non Payment</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    <span *ngIf="PromoterSalaryErrors.ptype">{{PromoterSalaryErrors?.ptype}}</span>
+                  </div>
+
+                </div>
+
+                <div class="justify-content-end mx-3 d-flex">
+                  <div class="form-group mt-4 pt-2">
+                    <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowAgentdetails()">
+                      <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                      <span *ngIf="!isLoading">
+                        <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                             width="20px">
+                      </span> {{savebutton}}
+                    </a>
+
+                  </div>
+                </div>
+  
+                
+               
+  
+              </div>
+            </div>
+
+            
+            <div class="">
+              <div class="">
+<!-- 
+                <div class="col-md-4 col-xl-4">
+                  <label id="padjustmenttype" title="Type">Type</label>
+                  <select class="form-control" id="ptype" title="Type" formControlName="ptype" (change)="TypeChange($event)" [ngClass]="{ 'is-invalid': PromoterSalaryErrors.ptype }">
+
+                    <option value="ALL" ng-selected="selected">All</option>
+                    <option value="PAYMENT" ng-selected="selected">Payment</option>
+                    <option value="NONPAYMENT" ng-selected="selected">Non Payment</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    <span *ngIf="PromoterSalaryErrors.ptype">{{PromoterSalaryErrors?.ptype}}</span>
+                  </div>
+
+                </div> -->
+           
+                <div class="justify-content-end">
+                  <div class="form-group mt-4 pt-1">
+
+                    <!-- <div class="col-md-12 col-xl-12 pull-right">
+                      <div class="form-group mt-1 pt-0">
+                        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowAgentdetails()">
+                          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                          <span *ngIf="!isLoading">
+                            <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                 width="20px">
+                          </span> {{savebutton}}
+                        </a>
+
+                      </div>
+                    </div>
+               -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </form>
+
+      <div class="d-flex justify-content-end">
+        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" (click)="pdf()" style="cursor: pointer;" />
+
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+
+          <!-- <ngx-datatable #myTable id="promotersalarylist" class="material expandable table" [rows]="promotersalarylist"[headerHeight]="50" [rowHeight]="50"
+                         [footerHeight]="pageCriteria.footerPageHeight" 
+            [limit]="pageCriteria.pageSize" [offset]="pageCriteria.offset" [groupRowsBy]="'pPaymentstatus'" [columnMode]="'force'" [scrollbarH]="true"
+                [groupExpansionDefault]="true"> -->
+                <ngx-datatable  class="material expandable table" [rows]="promotersalarylist" 
+                [headerHeight]="60"  [footerHeight]="50"  [scrollbarH]="true" [height]="" [selected]="" 
+              [groupRowsBy]="'pPaymentstatus'"  rowHeight="auto"
+     [limit]="commencementgridPage.size" [count]="commencementgridPage.totalElements"
+                
+                [columnMode]="'force'"[columnMode]="ColumnMode.force"
+                            [offset]="commencementgridPage.pageNumber"
+                            [groupExpansionDefault]="true">
+
+            <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+              <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                <div style="padding-left:5px;">
+                  <a [class.datatable-icon-right]="!expanded"
+                     [class.datatable-icon-down]="expanded"
+                     title="Expand/Collapse Group"
+                     (click)="toggleExpandGroup(group)">
+                    <b>{{ group.value[0].pPaymentstatus }}   </b>
+                  </a>
+
+                </div>
+              </ng-template>
+            </ngx-datatable-group-header>
+
+
+            <ngx-datatable-column width="130" name="Member" prop="pMembername" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column width="133" name="Advance Account No." prop="pSchemeAccountno" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+            </ngx-datatable-column>
+            <ngx-datatable-column width="130" name="Agent Name" prop="pAgentname" [cellClass]="'cell-left'"
+            [headerClass]="'header-left'">
+
+</ngx-datatable-column>
+            <ngx-datatable-column width="140" name="Commission Amount" prop="pCommissionamount" [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pCommissionamount | mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column width="100" name="TDS Amount" prop="pTdsamount" [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pTdsamount|mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column width="120" name="Paid Amount" prop="ptotalamount" [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.ptotalamount|mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column width="130" name="Voucher No." prop="pvoucherno" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <a (click)="getVoucherno(row)">{{row.pvoucherno}}</a>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column width="130" name="Payment Date" prop="ppaymentdate" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+              <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.ppaymentdate}}
+              </ng-template> -->
+            </ngx-datatable-column>            
+
+            <ngx-datatable-column width="130" name="Mode of Payment" prop="pmodeofpayment" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+
+            <ngx-datatable-column width="130" name="Bank Name" prop="ppaybankname" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+            </ngx-datatable-column>
+
+            <ngx-datatable-column width="130" name="Bank Branch Name" prop="ppaybankbranchname" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+            </ngx-datatable-column>
+            <ngx-datatable-column width="130" name="Cheque No." prop="ppaychequeno" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+            </ngx-datatable-column>
+            <!-- <ngx-datatable-footer *ngIf="promotersalarylist">
+              <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageCriteria.pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="pageCriteria.offset" let-isVisible="isVisible">
+                  <div style="padding: 5px 10px" *ngIf="promotersalarylist.length>0">
+                      <div>{{ pageCriteria.currentPageRows }} {{pageCriteria.footerMessagetext1}}
+                          {{ pageCriteria.totalrows }} {{pageCriteria.footerMessagetext2}}</div>
+                  </div>
+                  <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                   [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                    [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageCriteria.pageSize"
+                     [count]="rowCount"
+                      (change)="onFooterPageChange($event)">
+                  </datatable-pager>
+              </ng-template>
+          </ngx-datatable-footer> -->
+       
+          </ngx-datatable>
+
+<!-- vv -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

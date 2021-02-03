@@ -1,0 +1,139 @@
+<div class="section-container">
+<form [formGroup]="CreateGroupform" (ngSubmit)="submitCreateGroupform()">
+       
+    
+    <div class="row mt-2">
+        <div class="col-md-12 col-xl-12">
+            <h2 class="sec-head-bold">Create Group</h2>
+        </div>
+        
+        <div class="col-md-12 col-lg-12 col-xl-12">
+            <div class="form-group mt-2 ">
+                <div class="form-check form-check-inline mr-5  ">
+                    <input class="form-check-input" type="radio" formControlName="pGroupType" id="pGroupType" [ngClass]="{ 'is-invalid':GroupcreationValidationErrors.pGroupType  }" value="Individual Liability" [disabled]="CreateGroupformArrayview.length>0">
+                    <label class="mt-1" for="pGroupType" title="pGroupType" id="pGroupType"> Individual Liability
+                    </label>
+                </div>
+                <div class="form-check form-check-inline mr-5">
+                    <input class="form-check-input" type="radio" formControlName="pGroupType" id="pGroupType" [ngClass]="{ 'is-invalid':GroupcreationValidationErrors.pGroupType  }" value="Joint Liability for all Group Members" [disabled]="CreateGroupformArrayview.length>0">
+                    <label class="mt-1" for="pGroupType" title="pGroupType" id="pGroupType"> Joint Liability for all
+                        Group Members </label>
+                </div>
+                <div class="invalid-feedback">
+                    <span *ngIf="GroupcreationValidationErrors.pGroupType">{{GroupcreationValidationErrors?.pGroupType}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label class="mt-1" title="Group Name" id="pGroupName"> Group Name</label>
+                <input type="text" class="form-control" formControlName="pGroupName" [ngClass]="{ 'is-invalid':GroupcreationValidationErrors.pGroupName  }" maxlength="25" minlength="3" [readonly]="CreateGroupformArrayview.length>0">
+                <!-- <div *ngIf=" submitted &&  f.pGroupName.errors" class="invalid-feedback">
+                    <div *ngIf="f.pGroupName.errors.required">{{GroupcreationValidationErrors?.pGroupName}}</div>
+                </div> -->
+                <div class="invalid-feedback">
+                    <span *ngIf="GroupcreationValidationErrors.pGroupName">{{GroupcreationValidationErrors?.pGroupName}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label class="mt-1" title="Group Code" id="pGroupCode"> Group Code</label>
+                <input type="text" class="form-control" [ngClass]="{ 'is-invalid':GroupcreationValidationErrors.pGroupCode  }" formControlName="pGroupCode" minlength="3" maxlength="25" [readonly]="CreateGroupformArrayview.length>0">
+                <!-- <div *ngIf=" submitted &&  f.pGroupCode.errors" class="invalid-feedback">
+                    <div *ngIf="f.pGroupCode.errors.required">{{GroupcreationValidationErrors?.pGroupCode}}</div>
+                </div> -->
+                <div class="invalid-feedback">
+                    <span *ngIf="GroupcreationValidationErrors.pGroupCode">{{GroupcreationValidationErrors?.pGroupCode}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label class="mt-1" title="Member Count" id="pMembersCount"> Member Count</label>
+                <input type="text" class="form-control" [ngClass]="{ 'is-invalid':GroupcreationValidationErrors.pMembersCount  }" formControlName="pMembersCount" appNumbersonly maxlength="2" minlength="1" [readonly]="CreateGroupformArrayview.length>0">
+                <!-- <div *ngIf=" submitted &&  f.pMembersCount.errors" class="invalid-feedback">
+                    <div *ngIf="f.pMembersCount.errors.required">{{GroupcreationValidationErrors?.pMembersCount}}</div>
+                </div> -->
+                <div class="invalid-feedback">
+                    <span *ngIf="GroupcreationValidationErrors.pMembersCount">{{GroupcreationValidationErrors?.pMembersCount}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="individual">
+                <app-contact-select (ContactpersondataEventemit)="GetContactPersonData($event)"></app-contact-select>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="form-group">
+                <label title="Role in the Group" id="pGrouproleID">Role in the Group</label>
+                <div class="input-group">
+                    <select class="form-control" formControlName="pGrouproleID" [ngClass]="{ 'is-invalid':GroupcreationValidationErrors.pGrouproleID  }">
+                        <option value="" disabled="disabled">Please Select</option>
+                        <option *ngFor="let role of roleInTheGroupData" [value]="role.pGroupRoleId">
+                            {{role.pGroupRoleName}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        <span *ngIf="GroupcreationValidationErrors.pGrouproleID">{{GroupcreationValidationErrors?.pGrouproleID}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="light">
+        <div class="col-md-6 col-xl-4">
+            <div class="loans-card border-0 mr-4 mb-4 w-75">
+                <div class="row">
+                    <div *ngIf="ShowContactBusiness">
+                        <div class="Business">
+                            <app-contact-select (ContactpersondataEventemit)="GetContactPersonData($event)"></app-contact-select>
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <button class="btn btn-s-icon px-3 mt-1 w-100 btn-lg border-0" type="submit">
+                            <img src="assets/images/icon-add-white.svg" class="mr-1" width="20px" height="20px">
+                            Add contact in a Group
+                        </button>
+                    </div>
+                    <!--dropdown-end-->
+                </div>
+                <!--row-end-->
+            </div>
+        </div>
+    </div>
+
+
+    
+</form>
+<hr class="light">
+
+<div class="row">
+    <div class="col-12">
+        <kendo-grid [data]="CreateGroupform.value.pListGroupDetails" [height]="533" [pageSize]="gridState.take" [skip]="gridState.skip" [sort]="gridState.sort" [pageable]="true" [sortable]="true" 
+            (remove)="removeHandler($event)" >
+            <kendo-grid-column field="Sr. No.">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    {{rowIndex+1}}
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pRoleInGroup" title="Role in the Group"></kendo-grid-column>
+            <kendo-grid-column field="pContactName" title="Contact Name"></kendo-grid-column>
+            <kendo-grid-column field="pContactNo" title="Contact Number"></kendo-grid-column>
+            <kendo-grid-command-column title="Action" width="220">
+                <ng-template kendoGridCellTemplate>
+                    <!-- <button kendoGridEditCommand>Edit</button> -->
+                    <button kendoGridRemoveCommand [primary]="true">Delete</button>
+                </ng-template>
+            </kendo-grid-command-column>
+        </kendo-grid>
+    </div>
+</div>
+<!--row-end-->
+<div class="d-flex justify-content-end mt-4">
+    <a href="" data-toggle="tab" type="submit" (click)="saveGroupArray()" class="btn btn-b-icon px-3 border-0" role="tab" aria-controls="hot" aria-selected="false"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Save</a>
+</div>
+</div>

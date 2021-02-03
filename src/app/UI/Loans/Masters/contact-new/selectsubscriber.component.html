@@ -1,0 +1,28 @@
+<div class="form-group" [formGroup]="contactSelectForm">
+    <label>{{controlName}}</label>
+    <input class="dropdown-toggle form-control " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+      type="text" placeholder="Search" appCharactersonly aria-label="Search" id="contactname" placeholder="search by phone, name etc."
+      title="{{controlName}}" onkeydown="return (event.keyCode!=13);" formControlName="contactname" [ngClass]="{ 'is-invalid': formValidationMessages.contactname }"
+      (click)="dropDownsHideShow('Contact')" (keyup)="filterContactGrid($event)"
+      [ngClass]="{ 'is-invalid': formValidationMessages.contactname }">
+    <div class="dropdown-menu p-0">
+      <div *ngIf="showContactsGrid" class="">
+        <ngx-datatable class="material expandable" style="height : 300px; width:450px;" [rows]="contactsList"
+          columnMode="force" [headerHeight]="50" [footerHeight]="0" [rowHeight]="50" [scrollbarV]="true"
+          [scrollbarH]="true" [selected]="contactsSelected" [selectionType]="'single'"
+          (select)='ContactGridRowSelect($event)'>
+          >
+          <!-- <ngx-datatable-column name="Unique ID" prop="contactreferenceid">
+                        </ngx-datatable-column> -->
+          <ngx-datatable-column name="Name" prop="contactname"></ngx-datatable-column>
+          <ngx-datatable-column name="Mobile" prop="contactmobilenumber" [width]="90">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Email" prop="contactemailid">
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+    <app-validation-message [messgae]="formValidationMessages?.contactname">
+    </app-validation-message>
+  </div>
+  

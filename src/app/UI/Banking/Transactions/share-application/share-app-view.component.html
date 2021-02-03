@@ -1,0 +1,85 @@
+<div class="row mt-4 py-1">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a routerLink='/shareAppNewComponent' class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div>
+
+<div class="section-container">
+    <div class="row mt-5">
+        <div class="col-md-12 col-xl-12">
+
+            <kendo-grid [kendoGridBinding]="gridView" [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [sortable]="true" (edit)="editHandler($event)" (remove)="removeHandler($event)">
+                <!-- <kendo-grid-column field="pmembercode" [style]="{'text-align': 'center'}" width="50" title="S.No">
+                <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                    <p>{{rowIndex+1}}</p>
+                </ng-template>
+            </kendo-grid-column> -->
+                <!-- <kendo-grid-column field="pshareapplicationid" [style]="{'text-align': 'center'}" width="120"
+                title="Share ID">
+            </kendo-grid-column> -->
+                <kendo-grid-command-column title="" [style]="{'text-align': 'left'}" width="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <button kendoGridRemoveCommand [disabled]="dataItem.pReceiptStatus">
+                            <div id="icon-delete" data-toggle="modal" data-target="#myModal"></div>
+                        </button>
+                    </ng-template>
+                </kendo-grid-command-column>
+                <kendo-grid-column field="pShareAccountNo" [style]="{'text-align': 'left'}" width="120" title="Share Name">
+                </kendo-grid-column>
+                <kendo-grid-column field="pmembername" [style]="{'text-align': 'left'}" width="120" title="Member Name">
+                </kendo-grid-column>
+                <kendo-grid-column class="kendo-center" title="Number of Shares" width="120" [headerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div *ngIf="dataItem.pnoofsharesissued == 0"></div>
+                        <div *ngIf="dataItem.pnoofsharesissued !== 0">
+                            {{dataItem.pnoofsharesissued | mycurrencypipe}}</div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column class="kendo-center" title="Distinctive from" width="120" [headerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+
+                        {{dataItem.pdistinctivefrom | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column class="kendo-center" title="Distinctive to" width="120" [headerClass]="{'kendo-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        {{dataItem.pdistinctiveto | mycurrencypipe}}
+                    </ng-template>
+                </kendo-grid-column>
+                <!-- <kendo-grid-column class="kendo-right" title="Share Value" width="120" [headerClass]="{'kendo-left': true}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <div *ngIf="dataItem.pfacevalue == 0"></div>
+                    <div *ngIf="dataItem.pfacevalue !== 0">
+                        {{dataItem.pfacevalue | mycurrencypipe}}</div>
+                </ng-template>
+            </kendo-grid-column> -->
+                <!-- <kendo-grid-column field="pnoofsharesissued" [style]="{'text-align': 'center'}" width="120" title="Number of Shares">
+            </kendo-grid-column> -->
+
+
+                <kendo-grid-column class="kendo-right" title="Total Share Value" width="120" [headerClass]="{'kendo-left': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div *ngIf="dataItem.ptotalamount == 0"></div>
+                        <div *ngIf="dataItem.ptotalamount !== 0">
+                            {{dataItem.ptotalamount | mycurrencypipe}}</div>
+                    </ng-template>
+                </kendo-grid-column>
+                <!-- <kendo-grid-column field="pstatus" [style]="{'text-align': 'center'}" title="Status" width="100">
+          <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+            <div>
+              <p>{{dataItem.pstatus === true ? 'ACTIVE' : 'INACTIVE'}}</p>
+            </div>
+          </ng-template>
+        </kendo-grid-column> -->
+                <!-- <kendo-grid-command-column field="" [style]="{'text-align': 'center'}" title="Edit" width="100">
+                <ng-template kendoGridCellTemplate>
+                    <button kendoGridEditCommand>
+                        <div id="icon-edit"></div>
+                    </button>
+                </ng-template>
+            </kendo-grid-command-column> -->
+
+            </kendo-grid>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,221 @@
+<div class="row">
+  <div class="col-md-6 col-xl-6 ">
+    <p class="bc-2">Maturity Intimation</p>
+  </div>
+
+
+</div>
+<div class="row mt-3">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+
+      <form [formGroup]="MaturityIntimationForm" autocomplete="off">
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4 col-xl-4">
+                <label id="pSchemeId" title="Scheme Name">Scheme Name</label>
+                <select class="form-control" formControlName="pSchemeId" (change)="shemename_change($event)" [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pSchemeId }">
+                  <option value="0">All</option>
+                  <option *ngFor="let i of SchemeDetails" [value]="i.pSchemeId">{{i.pSchemename}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="MaturityIntimationErrors.pSchemeId">{{MaturityIntimationErrors?.pSchemeId}}</span>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-xl-4">
+                <label id="pbranch" title="Branch Name">Branch Name</label>
+                <select class="form-control col-md-12" formControlName="pbranch"
+                        (change)="branch_change($event)" [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pbranch }">
+                  <!--<option value="" ng-selected="selected">Select</option>-->
+                  <option value="All">All</option>
+                  <option *ngFor="let i of BranchDetails" [value]="i.pbranch">{{i.pbranch}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="MaturityIntimationErrors.pbranch">{{MaturityIntimationErrors?.pbranch}}</span>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row pt-2">
+              <div class="col-md-4  col-xl-4">
+                <div class="form-group">
+                  <label id="pFromMonthOf" title="From Date">From Date</label>
+                  <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                         bsDatepicker formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)" [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pFromMonthOf }">
+
+
+
+                </div>
+              </div>
+              <div class="col-md-4  col-xl-4">
+                <div class="form-group">
+                  <label id="pToMonthOf" title="To Date">To Date</label>
+                  <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                         bsDatepicker formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)" [ngClass]="{ 'is-invalid': MaturityIntimationErrors.pToMonthOf }">
+                  <div *ngIf="validation" class="text-danger">
+                    please select a valid date
+                  </div>
+                </div>
+              </div>
+
+              <div class="justify-content-end">
+                <div class="form-group mt-4 pt-2">
+                  <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowMaturitDetails()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                      <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                           width="20px">
+                    </span> {{savebutton}}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </form>
+
+      <div class="d-flex justify-content-end">
+     
+        <div class="">
+          <img src="assets/images/pdf-icon-blue.svg " width="18px"
+           class="pt-2" title="pdf" (click)="pdf()" style="cursor: pointer;" />
+        </div>
+
+      </div>
+
+
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+
+          <ngx-datatable #myTable id="gridData" class="material expandable table" [rows]="gridData" 
+          [headerHeight]="60" [footerHeight]="50" width="800"
+          [scrollbarH]="true" [height]="500" [selected]=""  [groupRowsBy]="'pschemename'"
+          rowHeight="auto" [limit]="commencementgridPage.size" [count]="commencementgridPage.totalElements"
+          [columnMode]="'force'"[columnMode]="ColumnMode.force"
+          [offset]="commencementgridPage.pageNumber"
+           [groupExpansionDefault]="true">
+
+
+            <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+              <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                <div style="padding-left:5px;">
+                  <a [class.datatable-icon-right]="!expanded"
+                     [class.datatable-icon-down]="expanded"
+                     title="Expand/Collapse Group"
+                     (click)="toggleExpandGroup(group)">
+                    <b>{{ group.value[0].pschemename }}   </b>
+
+                  </a>
+                </div>
+              </ng-template>
+            </ngx-datatable-group-header>
+
+            <ngx-datatable-column name="Select" prop="" [cellClass]="'cell-left'" width="50"
+                                  [headerClass]="'header-left'">
+              <ng-template ngx-datatable-header-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                           let-selectFn="selectFn">
+                <input type="checkbox" [checked]="allRowsSelected" [attr.disabled]="selectallcheckbox ? '' : null"
+                       (change)="selectAll($event,row,rowIndex)" />
+              </ng-template>
+              <ng-template class="column-fixed" ngx-datatable-cell-template
+                           let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                <input type="checkbox"
+                       (change)="selectrows($event, row, rowIndex)" [checked]="duplicatecheck">
+              </ng-template>
+            </ngx-datatable-column>
+
+
+
+            <ngx-datatable-column width="115" name="Member" prop="pmembername"
+                                  [cellClass]="'cell-left'" [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column width="130" name="Advance Account No." prop="pfdaccountno"
+                                  [cellClass]="'cell-left'" [headerClass]="'header-left'">
+            </ngx-datatable-column>
+            <!--<ngx-datatable-column width="120" name="Scheme Name" prop="pschemename"
+                              [cellClass]="'cell-left'" [headerClass]="'header-center'">
+
+        </ngx-datatable-column>-->
+            <ngx-datatable-column width="115" name="Branch" prop="pbranchname" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column width="120" name="Tenure" prop="ptenor" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column width="110" name="Advance Amount" prop="pdepositamount"
+                                  [cellClass]="'cell-right'" [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pdepositamount | mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column width="200" name="Interest Rate/Value per 100" prop="pinterestrate"
+                                  [cellClass]="'cell-right'" [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pinterestrate | mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Maturity Amount" prop="pmaturityamount" [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pmaturityamount | mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+
+
+
+            <ngx-datatable-column width="100" name="Advance Date" prop="pdepositdate"
+                                  [cellClass]="'cell-center'" [headerClass]="'header-center'">
+              <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.pdepositdate }}
+          </ng-template> -->
+            </ngx-datatable-column>
+
+            <ngx-datatable-column width="100" name="Maturity Date" prop="pmaturitydate"
+                                  [cellClass]="'cell-center'" [headerClass]="'header-center'">
+              <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.pmaturitydate }}
+          </ng-template> -->
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+          <div class="justify-content-end">
+          <a class="btn btn-g-icon  pull-right px-3 border-0" appButtonDoubleClick (debounceClick)="GenerateReport()">
+            <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />
+            Preview
+          </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row mt-4 ml-1">
+        <div class="col-md-12 col-xl-12">
+          <div class="d-flex justify-content-end mt-4">
+            <a class="btn btn-g-icon mr-4 px-3 border-0" appButtonDoubleClick (debounceClick)="GenerateReport()">
+              <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />
+              Preview
+            </a>
+          </div>
+        </div>
+      </div> -->
+      <div class="modal right animated slideInRight" id="add-detail">
+        <app-fd-transcation-details></app-fd-transcation-details>
+      </div>
+
+    </div>
+  </div>
+</div>

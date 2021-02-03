@@ -1,0 +1,240 @@
+<div class="section-container">
+
+
+<div class="col-md-12 col-xl-12 p-0">
+  <p class="bc-2">Challana Checking</p>
+</div>
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+
+</div>
+<div class="col-md-12 p-0">
+  <div id="template">
+    <form [formGroup]="ChallanaCheckingForm" autocomplete="off">
+      <div class="row mb-4 pb-4">
+        <div class="col-xl-3 col-md-4 form-group">
+
+
+          <label>Section</label>
+          <select class="form-control" (change)="sectionchange($event)" id="pTdsSection" title="Section"
+            formControlName="pTdsSection">
+            <option value="" ng-selected="selected" disabled>Select</option>
+            <option *ngFor="let tds of tdssectionlist;trackBy: trackByFn" [value]="tds.pTdsSection">
+              {{tds.pTdsSection}}
+            </option>
+          </select>
+
+          <div class="invalid-feedback">
+            <span *ngIf="challanachecking.pTdsSection">{{challanachecking?.pTdsSection}}</span>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-4 form-group">
+
+
+          <label>Company Type</label>
+          <select class="form-control" formControlName="pCompanyType" id="pCompanyType" title="Company Type"
+            (change)="Companytypechanges($event)" [ngClass]="{ 'is-invalid': challanachecking.pCompanyType }">
+            <option value="" ng-selected="selected" disabled>Select</option>
+            <option>Company</option>
+            <option>Non-Company</option>
+
+          </select>
+
+          <div class="invalid-feedback">
+            <span *ngIf="challanachecking.pCompanyType">{{challanachecking?.pCompanyType}}</span>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-4 form-group">
+
+
+          <label>Pan Type</label>
+          <select class="form-control" formControlName="pTdsType" id="pTdsType" title="Pan Type"
+            (change)="Pantypechanges($event)" [ngClass]="{ 'is-invalid': challanachecking.pTdsType }">
+            <option value="" ng-selected="selected" disabled>Select</option>
+            <option>With Pan</option>
+            <option>Without Pan</option>
+
+          </select>
+
+          <div class="invalid-feedback">
+            <span *ngIf="challanachecking.pTdsType">{{challanachecking?.pTdsType}}</span>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-3">
+          <div class="form-group">
+            <label title="From Date">From Date</label>
+            <input type="text" class="form-control " formControlName="pFromDate"
+              (ngModelChange)="FromDateChange($event)" placeholder="Date picker here" [bsConfig]="dpFromConfig"
+              #dp="bsDatepicker" bsDatepicker placement="bottom" readonly>
+            <!-- [ngClass]="{ 'is-invalid': formValidationMessages.pchequedate }" -->
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-3 form-group">
+          <label title="To Date">To Date </label>
+          <input type="text" class="form-control" formControlName="pToDate" placeholder="Date picker here"
+            [bsConfig]="dpToConfig" #dp="bsDatepicker" (ngModelChange)="ToDateChange($event)" bsDatepicker
+            placement="bottom" readonly>
+          <!-- [ngClass]="{ 'is-invalid': formValidationMessages.pchequedate }" -->
+          <div *ngIf="validation" class="text-danger">
+            please select valid date
+          </div>
+        </div>
+        <div class="col-md-3 mt-4 pt-2">
+          <div class="form-group">
+    
+            <button aria-controls="hot" aria-selected="false" class="btn btn-b-icon  border-0" data-toggle="tab" role="tab"
+              (click)="GetChallanaDetails()">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+              <span *ngIf="!isLoading"><img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                  width="20px"></span> {{savebutton}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+    
+    
+
+
+
+
+
+    <div id="temp-box">
+     
+        <div class="row">
+          <div class="col-md-12">
+           
+            <div class="report-head">
+              <p class="font-16 text-dark text-center m-0">
+                Challana Checking
+              </p>
+
+            </div>
+          </div>
+        </div>
+     
+
+
+
+      <div class="row pt-2">
+        <div class="col-12">
+
+          <kendo-grid [kendoGridBinding]="gridData" [groupable]="false" [group]="groups" [pageSize]="10" [skip]="skip"
+            [pageable]="{buttonCount: 2}" [kendoGridSelectBy]="'id'" [reorderable]="true" [sortable]="true"
+            [resizable]="true">
+            <ng-template kendoGridToolbarTemplate>
+              <div class="mb-3">
+                <div class="col-12 mt-5">
+                  <ul class="temp-ul pull-right mr-4 pb-3">
+                    <li class="temp-ico ml-2">
+                      <a kendoGridPDFCommand>
+                        <img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                    </li>
+                    <li class="temp-ico ml-2">
+                      <a kendoGridExcelCommand>
+                        <img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+            <kendo-grid-column title="Select All" field="add" class="pl-2" width="40">
+              <ng-template kendoGridHeaderTemplate let-dataItem let-rowIndex="rowIndex">
+                <input type="checkbox" name="selectAll" (change)="selectAllStudentsChange($event,dataItem,rowIndex)"
+                  [checked]="allStudentsSelected" />
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <input type="checkbox" (change)="clickselectforpayments($event,dataItem,rowIndex)"
+                  [checked]="dataItem.add" />
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="pPanNo" title="Pan No." width="120">
+            </kendo-grid-column>
+            <kendo-grid-column field="pAccountName" title="Name" width="120">
+            </kendo-grid-column>
+            <kendo-grid-column field="pActualTdsAmount" class="kendo-center" width="150" title="Actual TDS Amount">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pActualTdsAmount | mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pAmount" title="Amount" width="100" class="kendo-center">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pAmount | mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pBalance" title="Calc TDS" width="100" class="kendo-center">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.pBalance | mycurrencypipe}}
+              </ng-template>
+            </kendo-grid-column>
+          
+            <kendo-grid-column field="pTdsSection" title="TDS Section" width="100">
+            </kendo-grid-column>
+           
+            <!-- <kendo-grid-column field="pTdsVoucherId" title="Voucher ID" width="100">
+            </kendo-grid-column> -->
+          
+            <kendo-grid-pdf fileName="ChallanaChecking.pdf" [allPages]="true" paperSize="A2" [repeatHeaders]="true"
+              [landscape]="true">
+
+              <kendo-grid-pdf-margin top="8cm" left="1cm" right="1cm" bottom="2cm"></kendo-grid-pdf-margin>
+
+              <ng-template kendoGridPDFTemplate>
+                <div class="page-template">
+                  <div class="header">
+                    <app-company-details></app-company-details>
+                   
+                  </div>
+
+                </div>
+              </ng-template>
+
+            </kendo-grid-pdf>
+            <kendo-grid-excel fileName="ChallanaChecking.xlsx"></kendo-grid-excel>
+
+          </kendo-grid>
+
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!----------------------------Mode of Payment------------------------------------->
+
+
+
+
+
+<div class="row mt-2 ml-1">
+  <div class="col-md-12 col-xl-12">
+    <div class="d-flex justify-content-end mt-4">
+
+      <a (click)="SaveForm()" data-toggle="tab" class="btn btn-b-icon px-3 border-0 " role="tab" aria-controls="hot"
+        aria-selected="false">
+        <img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3" />Save
+      </a>
+    </div>
+  </div>
+</div>
+
+</div>

@@ -1,0 +1,208 @@
+<div class="row">
+    <div class="col-md-6 col-xl-6 ">
+      <p class="bc-2">Maturity Completed</p>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 col-xl-12">
+      <div class="section-container">
+        <form [formGroup]="PrematurityForm" autocomplete="off">
+          <div class="row mt-1">
+            <div class="col-md-12">
+                <div class="row mt-1">
+                  <div class="col-md-2 col-xl-2">
+                    <div class="">
+                      <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                        <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd1" value="ASON" [ngClass]="{ 'is-invalid': PrematurityErrors.pDatetype }"
+                               (change)="DatetypeChange('ASON')">
+                        <label id="pDatetype" title="AsOn" class="mt-2" for="interestd1"> As On </label>
+                      </div>
+                    <div class="invalid-feedback">
+                        <span *ngIf="PrematurityErrors.pDatetype">{{PrematurityErrors?.pDatetype}}</span>
+                      </div> 
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-xl-2">
+                    <div class="">
+                      <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                        <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd2" value="BETWEEN"
+                               (change)="DatetypeChange('BETWEEN')" [ngClass]="{ 'is-invalid': PrematurityErrors.pDatetype}" >
+                        <label id="pDatetype" title="Between" class="mt-2" for="interestd2"> Between </label>
+                      </div>
+                       <div class="invalid-feedback">
+                        <span *ngIf="PrematurityErrors.pDatetype">{{PrematurityErrors?.pDatetype}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-4  col-xl-4" *ngIf="showFrommonth">
+                    <div class="">
+                      <label id="pFromMonthOf" title="Month Of">From Date</label>
+  
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                             bsDatepicker  formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)"  [ngClass]="{ 'is-invalid': PrematurityErrors.pFromMonthOf }" >
+                      
+  
+                    </div>
+                  </div>
+  
+                  <div class="col-md-4  col-xl-4" *ngIf="showTomonth">
+                    <div class="">
+                      <label>{{displaytodate}}</label>
+                      <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                             bsDatepicker  formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)" [ngClass]="{ 'is-invalid': PrematurityErrors.pToMonthOf }">
+                      <div *ngIf="validation" class="text-danger">
+                        please select a valid date
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="justify-content-end   mt-4 pt-1">
+               
+                  <div class="form-group">
+
+                    <div class="col-md-12 col-xl-12 pull-right">
+                      <div class="form-group mt-1">
+                        <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetPrematuritydetails()">
+                          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                          <span *ngIf="!isLoading">
+                            <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                                 width="20px">
+                          </span> {{savebutton}}
+                        </a>
+
+                      </div>
+                    </div>
+                
+                  </div>
+            
+           
+            </div>
+                </div>
+              </div> 
+             
+                    
+             
+          </div>
+        </form>
+        <div class="d-flex justify-content-end ">
+            <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" (click)="pdf()" style="cursor: pointer;" />
+    
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+    
+              <ngx-datatable id="prematuritylist" class="material expandable table"   [rows]="prematuritylist"
+                             [headerHeight]="60" [footerHeight]="50" width="800"
+                             [scrollbarH]="true" [height]="500" [selected]=""  [groupRowsBy]="'pMembername'"
+                             rowHeight="auto" [limit]="commencementgridPage.size" [count]="commencementgridPage.totalElements"
+                             [columnMode]="'force'"[columnMode]="ColumnMode.force"
+                             [offset]="commencementgridPage.pageNumber"
+                              [groupExpansionDefault]="true">
+    
+                <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+                  <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                    <div style="padding-left:5px;">
+                      <a [class.datatable-icon-right]="!expanded"
+                         [class.datatable-icon-down]="expanded"
+                         title="Expand/Collapse Group"
+                         (click)="toggleExpandGroup(group)">
+                        <b>{{ group.value[0].pMembername }}   </b>
+                      </a>
+    
+                    </div>
+                  </ng-template>
+                </ngx-datatable-group-header> 
+    
+    
+                <!-- <ngx-datatable-column width="130" name="Member Name" prop="pMembername" [cellClass]="'cell-left'"
+                                      [headerClass]="'header-center'">
+    
+                </ngx-datatable-column> -->
+                <ngx-datatable-column width="133" name="Advance Account No." prop="pFdAccountNo" [cellClass]="'cell-left'"
+                                      [headerClass]="'header-center'">
+                </ngx-datatable-column>
+                <ngx-datatable-column width="100" name="Scheme Name" prop="pSchemename" [cellClass]="'cell-left'"
+                [headerClass]="'header-center'">
+
+             </ngx-datatable-column>
+               
+             <ngx-datatable-column width="120" name="Advance Amount" prop="pDepositamount" [cellClass]="'cell-right'"
+             [headerClass]="'header-center'">
+<ng-template let-row="row" ngx-datatable-cell-template>
+{{row.pDepositamount  | mycurrencypipe}}
+</ng-template>
+</ngx-datatable-column>
+               
+                    <ngx-datatable-column width="100" name="Advance Date" prop="pDepositdate"
+                            [cellClass]="'cell-left'" [headerClass]="'header-center'">
+                            <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.pDepositdate  | date:'dd-MM-yyyy'}}
+                            </ng-template> -->
+                        </ngx-datatable-column>
+
+                      
+    
+                        <ngx-datatable-column width="110" name="Maturity Date" prop="pMaturitydate"
+                        [cellClass]="'cell-left'" [headerClass]="'header-center'">
+                        <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{row.pMaturitydate  | date:'dd-MM-yyyy'}}
+                        </ng-template> -->
+                    </ngx-datatable-column>
+                    <ngx-datatable-column width="150" name="Maturity Amount" prop="pMaturityamount"
+                [cellClass]="'cell-right'" [headerClass]="'header-center'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.pMaturityamount | mycurrencypipe}}
+                </ng-template>
+            </ngx-datatable-column> 
+
+                    <ngx-datatable-column width="70" name="Tenure" prop="pTenor" [cellClass]="'cell-left'"
+                        [headerClass]="'header-center'">
+                    </ngx-datatable-column>
+                      
+                    <ngx-datatable-column width="200" name="Interest Rate/Value per 100" prop="pInterestrate" [cellClass]="'cell-right'"
+                    [headerClass]="'header-center'">
+                </ngx-datatable-column>
+
+                <ngx-datatable-column width="150" name="Interest Payable" prop="pInterestPayable"
+                [cellClass]="'cell-right'" [headerClass]="'header-center'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.pInterestPayable | mycurrencypipe}}
+                </ng-template> 
+            </ngx-datatable-column> 
+
+            <ngx-datatable-column width="100" name="Paid Amount" prop="pPaidAmount"
+            [cellClass]="'cell-right'" [headerClass]="'header-center'">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row.pPaidAmount | mycurrencypipe}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <!-- <ngx-datatable-column width="110" name="PreMaturity Amount" prop=""
+        [cellClass]="'cell-right'" [headerClass]="'header-right'">
+       <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.pMaturityamount  | mycurrencypipe}}
+        </ng-template> 
+    </ngx-datatable-column> -->
+    <!-- <ngx-datatable-column width="110" name="Adjust To" prop=""
+          [cellClass]="'cell-left'" [headerClass]="'header-center'">
+   
+            </ngx-datatable-column>  -->
+          <ngx-datatable-column width="140" name="Chit Branch" prop="pChitbranchname"
+                [cellClass]="'cell-left'" [headerClass]="'header-center'">
+
+                </ngx-datatable-column>        
+               
+    
+              </ngx-datatable>   
+    
+            </div>
+          </div>
+    
+      </div>
+    </div>
+</div>
+

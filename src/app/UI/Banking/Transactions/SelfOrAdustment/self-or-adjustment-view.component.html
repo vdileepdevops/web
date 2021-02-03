@@ -1,0 +1,66 @@
+<div class="row mt-4">
+  <div class="col d-flex flex-wrap align-items-center">
+    <a class="btn btn-b-icon border-0" routerLink="/SelfOrAdjustmentNew">
+      <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+    </a>
+
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-md-12 col-xl-12">
+    <kendo-grid [kendoGridBinding]="gridview" [groupable]="true"
+                [group]="groups" [selectedKeys]="mySelection" [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}"
+                [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [pageable]="true"
+                [sortable]="true" (edit)="editHandler($event)" (remove)="removeHandler($event)">
+      <ng-template kendoGridToolbarTemplate>
+        <div class="row mb-5">
+          <div class="col-4 pl-0 mt-n1">
+            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb"
+                   (input)="onFilter($event.target.value)" />
+          </div>
+        </div>
+      </ng-template>
+      <!-- <kendo-grid-command-column title="" width="100">
+         <ng-template kendoGridCellTemplate>
+
+           <button kendoGridEditCommand><div id="icon-edit"></div></button>
+         </ng-template>
+       </kendo-grid-command-column>
+       <kendo-grid-command-column title="" width="100">
+        <ng-template kendoGridCellTemplate>
+
+          <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+        </ng-template>
+      </kendo-grid-command-column> -->
+      <kendo-grid-column field="pTransdate" width="150" title="Date">
+      </kendo-grid-column>
+      <kendo-grid-column field="pPaymenttype" width="150" title="Payment Type">
+      </kendo-grid-column>
+      <kendo-grid-column field="pFdAccountno" width="150" title="Advance Account No.">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <a (click)="GetAccountDetails(dataItem)">{{dataItem.pFdAccountno }}</a>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="pMemberName" width="150" title="Member">
+      </kendo-grid-column>
+      <kendo-grid-column field="pCompnayname" width="150" title="Company Name">
+      </kendo-grid-column>
+      <kendo-grid-column field="pChitpersonname" width="150" title="Person Name">
+      </kendo-grid-column>
+      <kendo-grid-column field="pBranchname" width="150" title="Branch Name">
+      </kendo-grid-column>
+      <kendo-grid-column field="pBankaccountno" title="Account No." width="150">
+      </kendo-grid-column>
+      <kendo-grid-column field="pBankname" title="Bank Name" width="150">
+      </kendo-grid-column>
+      <kendo-grid-column field="pIfsccode" title="IFSC Code" width="150">
+      </kendo-grid-column>
+
+
+
+    </kendo-grid>
+  </div>
+  <div class="modal right animated slideInRight" id="add-detail">
+    <app-fd-transcation-details></app-fd-transcation-details>
+  </div>
+</div>

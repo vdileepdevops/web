@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+        <p class="bc-2">Group View</p>
+    </div>
+</div>
+<div class="col d-flex mt-5 flex-wrap align-items-center">
+    <a routerLink="/GroupCreation" class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" class="mr-2" width="20px" height="20px">New Group</a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12 col-xl-12">
+
+        <kendo-grid [data]="GetallGroupDetailsData" [height]="533" [pageSize]="gridState.take" [skip]="gridState.skip" [sort]="gridState.sort" [pageable]="true" [sortable]="true" (edit)="editHandler($event)" (remove)="removeHandler($event)"
+            >
+            <kendo-grid-column field="Sr. No.">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    {{rowIndex+1}}
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="pGroupCode" title="Group Code"></kendo-grid-column>
+            <kendo-grid-column field="pGroupName" title="Group Name"></kendo-grid-column>
+            <kendo-grid-column field="pMembersCount" title="Members Count"></kendo-grid-column>
+            <kendo-grid-column field="pGroupMembersRole" title="Group Incharge"></kendo-grid-column>
+            <kendo-grid-column field="pContactNo" title="Contact Number"></kendo-grid-column>
+            <kendo-grid-command-column title="command" width="220">
+                <ng-template kendoGridCellTemplate>
+                    <button kendoGridEditCommand>
+                        <div id="icon-edit"></div>
+                    </button>
+                    <button kendoGridRemoveCommand="true">
+                        <div id="icon-delete"></div>
+                    </button>
+                </ng-template>
+            </kendo-grid-command-column>
+        </kendo-grid>
+        <!-- <table id="example" class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Sr.No. </th>
+                    <th>Group Code</th>
+                    <th>Group Name</th>
+                    <th>Members Count</th>
+                    <th>Group Incharge</th>
+                    <th>Contact Number</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>G1</td>
+                    <td>GANGA</td>
+                    <td>5</td>
+                    <td>Harita Rao </td>
+                    <td>9848799777</td>
+                    <td>
+                        <a href="#">
+                            <div id="icon-edit"></div>
+                        </a>
+                        <a href="#">
+                            <div id="icon-delete"></div>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>G2</td>
+                    <td>YAMUNA</td>
+                    <td>5</td>
+                    <td>Aadi Y </td>
+                    <td>9848198481</td>
+                    <td>
+                        <a href="#">
+                            <div id="icon-edit"></div>
+                        </a>
+                        <a href="#">
+                            <div id="icon-delete"></div>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>G1</td>
+                    <td>GANGA</td>
+                    <td>5</td>
+                    <td>Harita Rao </td>
+                    <td>9848799777</td>
+                    <td>
+                        <a href="#">
+                            <div id="icon-edit"></div>
+                        </a>
+                        <a href="#">
+                            <div id="icon-delete"></div>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>G1</td>
+                    <td>GANGA</td>
+                    <td>5</td>
+                    <td>Harita Rao </td>
+                    <td>9848799777</td>
+                    <td>
+                        <a href="#">
+                            <div id="icon-edit"></div>
+                        </a>
+                        <a href="#">
+                            <div id="icon-delete"></div>
+                        </a>
+                    </td>
+                </tr>
+
+
+
+
+            </tbody>
+
+        </table> -->
+    </div>
+</div>

@@ -1,0 +1,439 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12 mt-5">
+        <p class="bc-2">Sanction Letter</p>
+    </div>
+    <div class="col-md-12">
+
+        <ul class="nav filtered-tab nav-tabs border-0">
+            <li class="active"><a data-toggle="tab" href="#yto-send" class="active" (click)="Clicknotsend()">Yet To Send<span class="badge badge-warning ml-2">{{notsend}}</span></a></li>
+            <li (click)="Clicksend()"><a data-toggle="tab" href="#sent">Sent<span class="badge badge-warning ml-2">{{send}}</span></a></li>
+        </ul>
+
+        <!-- tab-content -start -->
+
+        <div class="tab-content border rounded shadow-sm bg-white p-3">
+            <div id="yto-send" class="tab-pane show fade in active">
+                <div class="row mt-2">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="col-md-12 col-xl-12">
+                            <div class="my-container">
+                                <ng-template #customLoadingTemplate>
+                                    <div class="custom-class">
+
+                                    </div>
+                                </ng-template>
+                                <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+                            </div>
+                            <kendo-grid [kendoGridBinding]="SanctionLetterdata" [pageSize]="pageSize" [skip]="gridState.skip" [pageable]="{buttonCount: 2}" [sort]="gridState.sort" [sortable]="true" [resizable]="true">
+
+                                <ng-template kendoGridToolbarTemplate>
+                                    <div class="row mb-3">
+                                        <div class="col-4 pl-0 mt-n1">
+                                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilterNotsend($event.target.value)" />
+                                        </div>
+                                        <div class="col-7 pr-0 pl-4 ml-4">
+                                            <ul class="temp-ul mt-n1 mr-n2  pull-right">
+                                                <li class="temp-ico ml-2">
+                                                    <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                                </li>
+                                                <li class="temp-ico ml-2">
+                                                    <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                                </li>
+                                                <!-- <li class="temp-ico ml-2"><a    (click)="print()"><img class="pt-2" src="assets/images/print-icon-blue.svg " title="print" width="20px"></a></li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </ng-template>
+                                <kendo-grid-column-group title=" Sanction Letter (Yet To Send)" [headerClass]="{'kendo-g-center' : true}">
+                                    <kendo-grid-column field="pIsprimaryAccount" title="Select" width="80">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <input type="radio" name="anotsend" [checked]="dataItem.pIsprimaryAccount" (click)="selectsanctionletter(dataItem,rowIndex)" />
+                                        </ng-template>
+                                    </kendo-grid-column>
+
+
+
+                                    <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantMobileNo" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+                                </kendo-grid-column-group>
+
+                                <kendo-grid-pdf fileName="Sanction Letter_Yet To Send.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                                    <ng-template kendoGridPDFTemplate>
+                                        <div class="page-template">
+                                            <div class="header bc-2 text-center">
+                                                <h5> Sanction Letter (Yet To Send) </h5>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                                    <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantMobileNo" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+                                </kendo-grid-pdf>
+
+
+                                <kendo-grid-excel fileName="Sanction Letter_Yet To Send.xlsx" [fetchData]="allData">
+                                    <kendo-excelexport-column-group title="Sanction Letter (Yet To Send)" [headerCellOptions]="headerCells">
+                                        <kendo-excelexport-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantname" title="Applicant"></kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                            </ng-template>
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantMobileNo" title="Mobile No"></kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantEmail" title="Email"></kendo-excelexport-column>
+                                    </kendo-excelexport-column-group>
+                                </kendo-grid-excel>
+                            </kendo-grid>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sent" class="tab-pane fade">
+                <div class="row mt-2">
+                    <div class="col-md-12 col-xl-12">
+                        <div class="col-md-12 col-xl-12">
+
+                            <div class="my-container">
+                                <ng-template #customLoadingTemplate>
+                                    <div class="custom-class">
+
+                                    </div>
+                                </ng-template>
+                                <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+                            </div>
+
+                            <kendo-grid [kendoGridBinding]="SanctionLetterdata" [pageSize]="pageSize" [skip]="gridState.skip" [pageable]="{buttonCount: 2}" [sort]="gridState.sort" [sortable]="true" [resizable]="true">
+
+                                <ng-template kendoGridToolbarTemplate>
+                                    <div class="row mb-3">
+                                        <div class="col-4 pl-0 mt-n1">
+                                            <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilterNotsend($event.target.value)" />
+                                        </div>
+                                        <div class="col-12 ">
+                                            <ul class="temp-ul pull-right">
+                                                <li class="temp-ico ml-2">
+                                                    <a kendoGridPDFCommand><img class="pt-2" src="assets/images/pdf-icon-blue.svg " title="pdf" width="20px"></a>
+                                                </li>
+                                                <li class="temp-ico ml-2">
+                                                    <a kendoGridExcelCommand><img class="pt-2" src="assets/images/icon-excel.svg " title="excel" width="20px"></a>
+                                                </li>
+                                                <!-- <li class="temp-ico ml-2"><a    (click)="print()"><img class="pt-2" src="assets/images/print-icon-blue.svg " title="print" width="20px"></a></li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </ng-template>
+                                <kendo-grid-column-group title=" Sanction Letter (Sent)" [headerClass]="{'kendo-g-center' : true}">
+                                    <kendo-grid-column field="pIsprimaryAccount" title="Select" width="80">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <input type="radio" name="send" [checked]="dataItem.pIsprimaryAccount" (click)="selectsanctionletter(dataItem,rowIndex)" />
+                                        </ng-template>
+                                    </kendo-grid-column>
+
+
+
+                                    <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantMobileNo" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+                                </kendo-grid-column-group>
+                                <kendo-grid-pdf fileName="Sanction Letter_Sent.pdf" paperSize="A4" [allPages]="true" [repeatHeaders]="true" [landscape]="true">
+                                    <ng-template kendoGridPDFTemplate>
+                                        <div class="page-template">
+                                            <div class="header bc-2 text-center">
+                                                <h5> Sanction Letter (Sent) </h5>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <kendo-grid-pdf-margin top="2cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+                                    <kendo-grid-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantname" title="Applicant"></kendo-grid-column>
+                                    <kendo-grid-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantMobileNo" title="Mobile No"></kendo-grid-column>
+                                    <kendo-grid-column field="pApplicantEmail" title="Email"></kendo-grid-column>
+                                </kendo-grid-pdf>
+
+
+                                <kendo-grid-excel fileName="Sanction Letter_Sent.xlsx" [fetchData]="allData">
+                                    <kendo-excelexport-column-group title="Sanction Letter (Sent)" [headerCellOptions]="headerCells">
+                                        <kendo-excelexport-column field="pVchapplicationID" title="Loan Application No" width="200"></kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantname" title="Applicant"></kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApprovedloanamount" title="Approved Loan Amount" [headerClass]="{'kendo-right': true}" class="kendo-right">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                {{dataItem.pApprovedloanamount | mycurrencypipe}}
+                                            </ng-template>
+                                        </kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantMobileNo" title="Mobile No"></kendo-excelexport-column>
+                                        <kendo-excelexport-column field="pApplicantEmail" title="Email"></kendo-excelexport-column>
+                                    </kendo-excelexport-column-group>
+                                </kendo-grid-excel>
+
+
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- tab-content -end -->
+    </div>
+
+
+
+    <div class="col-md-12">
+        <div id="template" class="collapse fade {{SanctionLetter}} mt-4">
+
+            <div class="my-container">
+                <ng-template #customLoadingTemplate>
+                    <div class="custom-class">
+
+                    </div>
+                </ng-template>
+                <ngx-loading [show]="loadingletters" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+            </div>
+
+            <div class="d-flex justify-content-end mr-3">
+                <ul class="temp-ul mt-4 pull-right">
+                    <!-- <li class="temp-ico ml-2">
+               <a href=""><img src="assets/images/icon-mail-active.svg "  width="20px" class="pt-2" title="Email" />
+               </a>
+           </li>
+           <li class="temp-ico ml-2"><a href=""><img src="assets/images/icon-sms-active.svg " width="20px" class="pt-2" title="SMS" /></a></li> -->
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" style="cursor: pointer;" kendo-button (click)="pdf.saveAs('Sanction_Letter_'+loantypeandCode+'_'+today+'.pdf')" />
+                    </li>
+                    <li class="temp-ico ml-2">
+                        <img src="assets/images/print-icon-blue.svg " width="18px" class="pt-2" title="print" (click)="print()" style="cursor: pointer;" />
+                    </li>
+
+                </ul>
+
+            </div>
+            <kendo-pdf-export #pdf paperSize="A4" margin="10mm">
+                <div id="temp-box">
+                    <div class="mt-2 border shadow-sm bg-white">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <app-company-details></app-company-details>
+
+                                <div class="report-head">
+                                    <p class="font-16 text-dark text-center mb-0">
+                                        Sanction Letter
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="temp-box-inner border rounded shadow-sm bg-white p-3 pt-0" style="overflow:hidden; height:auto !important;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="font-18 text-dark text-left">
+                                    <span class="mr-4 sec-head-black">Date :</span>
+                                    <span class="sec-head-black">{{sanctiondate | date:'dd-MM-yyyy'}},</span>
+                                </p>
+                                <p class="font-18 text-dark text-left">
+                                    Dear {{Titlename}} {{applicantname}},
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="font-18 text-dark mt-4 mb-4">
+                                    We are pleased to advise you that your loan application for <span class="sec-head-black">"{{pLoanname}}"</span> for <span class="sec-head-black"> {{approvedloanamount | mycurrencypipe}}</span> has been sanctioned in
+                                    your favour as per the terms and conditions detailed below. Your loan application number is <span class="sec-head-black">{{pVchapplicationIDGrid}}.</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <table class="table mt-4">
+                                    <tr>
+                                        <!-- <td>1</td> -->
+                                        <td>Name of the Applicant</td>
+                                        <td>{{applicantname}}</td>
+                                    </tr>
+
+                                    <tr *ngFor="let coapplicants of coapplicantslist; index as i;">
+                                        <!-- <td>{{i+2}}</td> -->
+                                        <td>{{coapplicants.pTitle}}</td>
+                                        <td>{{coapplicants.pName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <!-- <td>{{indexlength+1}}</td> -->
+                                        <td>Loan Type</td>
+                                        <td>{{pLoantype}}</td>
+                                    </tr>
+                                    <tr>
+                                        <!-- <td>{{indexlength+2}}</td> -->
+                                        <td>Limit Sanctioned</td>
+                                        <td>{{approvedloanamount | mycurrencypipe}}</td>
+                                    </tr>
+                                    <tr>
+                                        <!-- <td>{{indexlength+3}}</td> -->
+                                        <td>Margin/Down payment to be borne by the applicant</td>
+                                        <td>{{downpayment}}</td>
+                                    </tr>
+                                    <tr>
+                                        <!-- <td>{{indexlength+4}}</td> -->
+                                        <td>Loan Tenure</td>
+                                        <td>{{tenureofloan}}</td>
+                                    </tr>
+                                    <tr>
+                                        <!-- <td>{{indexlength+5}}</td> -->
+                                        <td>Loan Payin</td>
+                                        <td>{{loanpayin}}</td>
+                                    </tr>
+                                    <tr>
+                                        <!-- <td>{{indexlength+6}}</td> -->
+                                        <td>Instalment Amount</td>
+                                        <td>{{installmentamount | mycurrencypipe}}</td>
+                                    </tr>
+
+                                    <tr *ngIf="chargesList.length > 0">
+                                        <td colspan="3">
+                                            <p class="font-14 text-dark text-left m-0">
+                                                List of Charges:
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let charges of chargesList; index as i;">
+                                        <!-- <td>{{i+1}}</td> -->
+                                        <td>{{charges.pChargename}}</td>
+                                        <td>{{charges.pChargeAmount | mycurrencypipe}}</td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="font-18 text-dark"><u>Terms and Conditions :</u></p>
+                                <ul style="padding-inline-start:0px;">
+                                    <li>1) Sanction terms and conditions should be communicated to the borrower.</li>
+                                    <li>2) The limit should be released only after the terms and conditions of the sanction are accepted/acknowledged by the borrowers.</li>
+                                    <li>3) Liability Insurance is mandatory.</li>
+                                </ul>
+                                <p class="font-18 text-dark"><u>Pre-Disbursement Conditions :</u></p>
+                                <ul style="padding-inline-start:0px;">
+                                    <li>1) Copies of approved building plan and permission by competent authority to be obtained.</li>
+                                    <li>2) Legal opinion to be obtained.</li>
+                                </ul>
+                                <p class="font-18 text-dark"><u>Special Terms and Conditions :</u> </p>
+                                <ul style="padding-inline-start:0px;">
+                                    <li>1) Branch to ensure and obtain the sources of meeting margin money/down payment by the applicant before release of the loan amount. Branch should collect borrowers margin/down payment before disbursement of loan.</li>
+                                    <li>2) All documents should be verified by a Law Officer or Panel Advocates</li>
+                                    <li>3) Branch shall submit the legal audit report, compliance to legal audit along with compliance certificate for sanction terms.</li>
+                                    <li>4) Branch to obtain permission from the sanctioning authority before disbursement of the loan duly submitting certificate of compliance of.</li>
+                                    <li>sanction terms.</li>
+                                    <li>5) Branch should ensure registration of the scheduled property in the joint names of ________________and_______________.</li>
+                                    <li>6) Branch should create a valid mortgage and ensure end use of funds.</li>
+                                    <li>7) Branch shall obtain all original documents before disbursement of loan as mentioned in the legal opinion.</li>
+                                    <li>8) Branch shall obtain supplementary legal opinion after completion of the registration of the property in favour of the applicant.</li>
+                                    <li>9) Branch to make payment of loan amount along with borrowers total margin directly to the vendors by way of demand draft/pay order.</li>
+                                    <li>10) Branch to ensure incorporation of our demand draft number and other details in the sale deed and get it registered.</li>
+                                    <li>11) Branch to obtain original receipt of payment to Vendor and keep on record.</li>
+                                    <li>12) Branch should obtain the latest House Tax Receipt and keep on record.</li>
+                                </ul>
+                                <p class="font-18 text-dark"><u>Other Terms and Conditions</u></p>
+                                <ul style="padding-inline-start:0px;">
+                                    <li>1) Branch to obtain latest EC's and legal opinion before release of the housing loan.
+                                    </li>
+                                    <li>2) Branch shall obtain an undertaking from the borrower to debit the monthly installments from his account to the credit of his loan a/c.</li>
+                                    <li>3) Branch to link operative a/c for recovery of loan installments.</li>
+                                    <li>4) Branch is advised to file mortagage charge with CERSAI within 30 days from the creation of mortagage.</li>
+                                </ul>
+
+                                <p class="font-18 text-dark"><u>General Terms and Conditions :</u></p>
+                                <ul style="padding-inline-start:0px;">
+                                    <li>1) Self declaration from the borrowers that they are not availing credit facility under similar scheme from other branches of Andhra Bank or other banks is to be obtained.</li>
+                                    <li>2) Borrower and obligates have to submit filled property statements with residential address and phone numbers and comply KYC norms.</li>
+                                    <li>3) Bank will release sanctioned limit only after getting the valuation report from approved valuer and ensure that the building after construction/purchase is not less than the value mentioned in the application form.
+                                        Bank will release sanctioned limit as per stage-wise construction and certification by approved engineers.</li>
+                                    <li>4) Bank releases sanctioned limit.</li>
+                                    <li>5) Letter regarding sources of funds to meet the margin should be submitted before release of loan amount in part or full.</li>
+                                    <li>6) The rate of interest applicable to loan amount is subject to change from time to time.</li>
+                                    <li>7) All related expenses will be at the cost of the borrower. Advocates fee/legal charges, valuation fee, cost of obtaining ec's, certified copies, verification charges etc.</li>
+                                    <li>8) Administrative charges on a quarterly basis are payable as per guidelines as and when charged to the account.</li>
+                                    <li>9) Per-EMI interest has to be paid separately without fail as an when charged.</li>
+                                    <li>10) ECS mandate form should be obtained if the applicant has an operative account with other bank(s).</li>
+                                    <li>11) An undertaking letter is to be given to the bank to pay the residual amount if any, in the loan account, on payment of stipulated equated installments.</li>
+                                    <li>12) The borrower/applicant/loanee has to submit a notarized affidavit declaring that he enquired that no case or proceedings are pending against the said property and no prior mortgage were created against the said
+                                        property.
+                                    </li>
+                                    <li>13) Equitable mortagage by deposit of title deeds</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="temp-sign-box">
+                                    <p class="font-18 text-dark mt-6 mb-4">
+                                        Loan Applicant's Signature
+                                    </p>
+                                    <hr>
+                                    <p class="font-18 text-dark mt-8 mb-4">
+                                        {{Titlename}} {{applicantname}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="temp-sign-box">
+                                    <p class="font-18 text-dark mt-4 mb-4 text-right">
+                                        Receiving Officer's Signature
+                                    </p>
+                                    <hr>
+                                    <p class="font-18 text-dark mt-8 mb-4 text-right">
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </kendo-pdf-export>
+
+            <div class="d-flex justify-content-end" *ngIf="Savebbutton">
+                <a data-toggle="collapse" aria-expanded="true" class="btn btn-s-icon px-3 mt-4 border-0" (click)="save()"><img src="assets/images/icon-check-white.svg" width="20px" height="20px" class="mr-3">Save </a>
+            </div>
+        </div>
+    </div>
+
+</div>

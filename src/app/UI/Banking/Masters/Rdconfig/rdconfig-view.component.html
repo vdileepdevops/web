@@ -1,0 +1,74 @@
+<div class="row mb-3">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a routerLink='/RdNew' class="btn btn-b-icon border-0"><img src="assets/images/icon-add-white.svg" width="20px" height="20px" class="mr-2" />New</a>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-md-12 col-xl-12">
+        <!-- <table id="example" class="table" >
+      <thead>
+        <tr>
+          <th>Recurring  Deposit Name</th>
+          <th>Recurring  Deposit Code</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rdItem of rdItemsList; let i = index;">
+          <td>{{ rdItem.pRdname }}</td>
+          <td>{{ rdItem.pRdnamecode }}</td>
+           <td class="material-switch" colspan="1">
+           <input data-target="#yes" data-toggle="collapse" type="checkbox" id="status0" [checked]="rdItem.pstatus">
+           <label class="badge-success" data-target="#yes" data-toggle="collapse" for="status0"></label>
+          </td>
+          <td><a href="#">
+            <div id="icon-edit"></div>
+            </a></td>
+        </tr>
+      </tbody>
+    </table> -->
+
+        <kendo-grid [kendoGridBinding]="gridView" [groupable]="true" [group]="groups" [selectedKeys]="mySelection" [pageSize]="10" [skip]="skip" [pageable]="{buttonCount: 2}" [reorderable]="true" [resizable]="true" [columnMenu]="{ filter: true }" [pageable]="true"
+            [sortable]="true" (edit)="editHandler($event)" (remove)="removeHandler($event)">
+            <ng-template kendoGridToolbarTemplate>
+                <div class="row  p-3">
+                    <div class="col-4 pl-0 mt-n1">
+                        <input placeholder="Search in all columns..." kendoTextBox class="form-control search-k-cst sb" (input)="onFilter($event.target.value)" />
+                    </div>
+                </div>
+            </ng-template>
+            <kendo-grid-command-column title="Actions" width="100">
+                <ng-template kendoGridCellTemplate>
+                    <!-- <button kendoGridEditCommand>Edit</button> -->
+                    <button kendoGridEditCommand><div id="icon-edit"></div></button>
+
+                    <!-- <button kendoGridEditCommand>Edit</button> -->
+                    <button kendoGridRemoveCommand><div id="icon-delete"></div></button>
+                </ng-template>
+            </kendo-grid-command-column>
+            <kendo-grid-column field="pRdname" title="Recurring  Deposit Name" width="120">
+            </kendo-grid-column>
+            <kendo-grid-column field="pRdnamecode" title="Recurring  Deposit Code" width="120">
+            </kendo-grid-column>
+            <kendo-grid-column title="Status" width="100">
+                <ng-template let-dataItem let-rowIndex="rowIndex" kendoGridCellTemplate>
+                    <!-- <div class="material-switch">
+           <input data-target="#yes" data-toggle="collapse" type="checkbox"  id="status{{rowIndex}}" [checked]="dataItem.pstatus">
+           <label class="badge-success" data-target="#yes" data-toggle="collapse" for="status{{rowIndex}}" ></label>
+         </div> -->
+                    <span *ngIf="dataItem.pstatus">Active</span>
+                    <span *ngIf="!(dataItem.pstatus)">In-active</span>
+                </ng-template>
+            </kendo-grid-column>
+
+
+        </kendo-grid>
+    </div>
+</div>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplateForFiView">
+    </ngx-loading>
+
+</div>

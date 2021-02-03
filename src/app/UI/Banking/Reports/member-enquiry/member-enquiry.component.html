@@ -1,0 +1,353 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="sec-head p-0">
+
+
+        Member Enquiry
+      </div>
+    </div>
+  </div>
+<div class="">
+
+  <form [formGroup]="MemberEnquiryform">
+    <div class="row">
+      <div class="col-md-12 col-xl-12">
+        <div class="section-container inner-Pages">
+          <div class="card-box pb-4">
+            <div class="">
+          
+              <div class="row mt-2">
+                <div class="col-md-4 col-xl-4 members">
+                  <!-- <div class="form-group m-0">
+        <select class="form-control">
+          <option>Name</option>
+          <option></option>
+          <option></option>
+          <option></option>
+        </select>
+      </div> -->
+                  <ng-select [items]="memberdetails" formControlName="pMembername" bindLabel="pMembername"
+                             bindValue="pMemberid" [multiple]=false placeholder="Select" [searchable]="true"
+                             [searchFn]="customSearchFn"   (change)="MemberChanges($event);" [clearable]=true dropdownPosition="bottom"
+                             [clearOnBackspace]=true>
+                    <ng-template ng-header-tmp>
+                      <label class="col-4 p-0"><strong>Member</strong> </label>
+                      <label class="col-4 p-0" style="text-align:center"><strong>Member Code</strong> </label>
+                      <label class="col-4 p-0" style="text-align:center"><strong>Contact No.</strong> </label>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                      <div class="row">
+                        <span class="col-4 text-dark word-break text-wrap">{{item.pMembername}}</span>
+                        <span class="col-4 text-dark">{{item.pMembercode}}</span>
+                        <span class="col-4 text-dark">{{item.pMobileno}}</span>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+
+              </div>
+              
+                  <!-- <div class="col-md-12 col-xl-12 mt-2 form-group">
+                   
+                    <div class="col-md-12 col-xl-12">
+                      <label class="col-md-3 pl-0 pr-0">Address :</label>
+                      <label class="col-md-3 pl-0 pr-0 sec-head-bold text-left"><b>{{Address}}</b></label>
+                    </div>
+                    <div class="col-md-12 col-xl-12">
+                      <label class="col-md-3 pl-0 pr-0">Contact No. :</label>
+                      <label class="col-md-3 pl-0 pr-0 sec-head-bold text-left"><b>{{Contactdetails}}</b></label>
+                    </div>
+                  </div> -->
+                
+              <div class="row">  
+                  <div class="col-md-12">  
+            <div class="rounded d-flex border p-2 pt-3 pl-3 mt-2" *ngIf="showdetails">
+             <div class="col-md-10">
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <div class="row mt-3 ml-0">
+                      <label class="col-md-5 col-xl-5 pl-0 mt-1" for="">Member Code :</label>
+                      <label class="col-md-7 col-xl-7 pl-0 mt-1 sec-head-bold text-left word-break text-wrap" for="">{{MemberCode}}</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <div class="row mt-3 ml-0">
+                      <label class="col-md-5 col-xl-5 pl-0 mt-1" for="">Contact No. :</label>
+                      <label class="col-md-7 col-xl-7 pl-0 mt-1 sec-head-bold text-left word-break text-wrap" for="">{{Contactdetails}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" >
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <div class="row  ml-0">
+                      <label class="col-md-5 col-xl-5 pl-0 mt-1" for="">Father Name:</label>
+                      <label class="col-md-7 col-xl-7 pl-0 mt-1 sec-head-bold" for="">{{Fathername}}</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <div class="row  ml-0">
+                      <label class="col-md-5 col-xl-5 pl-0 mt-1" for="">Address :</label>
+                      <label class="pl-0 mt-1 sec-head-bold" for="">{{Address}}</label>
+                    </div>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class=" mt-3">
+                            
+                      <img [src]="croppedImage" alt="img" class="rounded-circle" width="120px" height="120px"  />
+                                
+              </div> 
+              </div>
+          </div>
+          </div>
+        </div>
+              <div class="row  mt-2">
+                <div class="col-md-12">
+                  <div class="accordion border mt-3" id="bankdetails">
+                    <div class="card">
+                      <div class="card-header" id="bankheading">
+                        <h2 class="mb-0">
+                          <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button"
+                                  data-toggle="collapse" data-target="#bankheadingone" aria-expanded="true"
+                                  aria-controls="bankheadingone">
+                            Bank Details<i class="fa era fa-plus"></i>
+                          </button>
+                        </h2>
+                      </div>
+                      <div id="bankheadingone" class="collapse" aria-labelledby="bankheading"
+                           data-parent="#bankdetails">
+
+                        <div class="row">
+                          <div class="col-md-12 col-xl-12">
+
+
+                            <kendo-grid [data]="Bankdetails"
+                                        
+                                        [sortable]="true">
+
+
+                              <kendo-grid-column field="pBankname" width="150"  title="Bank Name">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pBranch" width="150" title="Branch">
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pAccountno" width="150" title="Account No.">
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                      <a (click)="GetAccountDetails(dataItem)">{{dataItem.pFdAccountno }}</a>
+                    </ng-template> -->
+                              </kendo-grid-column>
+                              <kendo-grid-column field="pIfsccode" width="150" title="IFSC Code">
+                              </kendo-grid-column>
+
+
+
+
+                            </kendo-grid>
+
+
+
+                          </div>
+
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+       
+
+
+
+
+              <!-----------------Top Nav Start --------------------->
+              <div class="accordion border mt-3" id="accordionExample">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link position-relative text-none col-md-12 d-flex" type="button"
+                              data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                              aria-controls="collapseOne">
+                        Deposits<i class="fa era fa-plus"></i>
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="row">
+                      <div class="col-md-12 col-xl-12">
+
+                          <!-- <img src="assets/images/print-icon-blue.svg " (click)="print()" width="20" heigh="20"> -->
+                        <kendo-grid [data]="Transcationdetails"
+                                    [reorderable]="true" [resizable]="true"
+                                    [sortable]="true">
+                                    <kendo-grid-command-column title="Actions" width="100">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <a  (click)="print(dataItem)">Print</a>
+                                          
+                                         
+                                        </ng-template>
+                                      </kendo-grid-command-column>
+
+                          <kendo-grid-column field="pFdaccountno" width="200" title="Advance Account No.">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pMembername" width="150" title="Member">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pDepositamount" width="150" title="Advance Amount"  class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pDepositamount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pMaturityamount" width="150" title="Maturity Amount" class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pMaturityamount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pDepositdate" width="150" title="Advance Date">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pMaturitydate" width="150" title="Maturity Date">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pInterestrate" width="200" title="Interest Rate/Value per 100">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pInterestpayable" width="150" title="Interest Payable"  class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pInterestpayable | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+                          <!-- <kendo-grid-column field="pPaidamount" width="150" title="Paid Amount"   class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pPaidamount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column> -->
+                          <kendo-grid-column field="pReceivedamount" width="200" title="Received Amount"   class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pReceivedamount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column>
+
+                          <!-- <kendo-grid-column field="pPendingchequeamount" width="200" title="Pendingcheque Amount"  class="kendo-center">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                              {{dataItem.pPendingchequeamount | mycurrencypipe}}
+                            </ng-template>
+                          </kendo-grid-column> -->
+                          <kendo-grid-column field="pTenure" width="150" title="Tenure">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pTransactiondate" width="150" title="Transaction Date">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pInterestpayout" width="150" title="Interest Payout">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pFdcalculationmode" width="150" title="Calculation Mode">
+
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pApplicanttype" width="150" title="Applicant Type">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pChitbranchname" width="150" title="Branch Name">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pInteresttype" width="150" title="Interest Type">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pContacttype" width="150" title="Contact Type">
+                          </kendo-grid-column>
+                          <kendo-grid-column field="pSchemename" width="150" title="Scheme Name">
+                          </kendo-grid-column>
+                        
+                          
+                        
+                        
+                        
+                         
+                        
+                        
+
+                          <div *kendoGridDetailTemplate="let dataItem">
+                            <app-memberenquiryreceipts [receiptdetails]=dataItem></app-memberenquiryreceipts>
+                          </div>
+
+
+
+                        </kendo-grid>
+
+
+
+                      </div>
+
+
+
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+              <!-- <div class="row  mt-5">
+    <div class="col-md-12">
+      <div class="sec-head p-0">
+
+
+        Nominee Details</div>
+    </div>
+  </div>
+  <div class="row mt-1">
+    <div class="col-md-12 col-xl-12">
+      <table id="example" class="table text-center border">
+        <thead>
+          <tr>
+            <th>Nominee Name</th>
+            <th>Nominee No.</th>
+            <th>Aadhar No.</th>
+            <th>Pan No.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Swetha</td>
+            <td>40000000000</td>
+            <td>8900000000</td>
+            <td>aix9900000</td>
+
+          </tr>
+          <tr>
+            <td>Swathi</td>
+            <td>40000000000</td>
+            <td>8900000000</td>
+            <td>aix9900000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div> -->
+            </div>
+            </div>
+          <!-- <div class="d-flex justify-content-end mt-4 mb-3  pt-1">
+          <a href="#" class="btn btn-g-icon mr-4 px-3 border-0">
+            <img src="images/icon-cancel-white.svg" width="20px" height="20px" class="mr-2">Clear</a>
+          <a href="#loanconfig" data-toggle="tab" class="btn btn-b-icon  border-0" role="tab" aria-controls="hot"
+            aria-selected="false">
+            <img src="images/icon-chewron-right-whitesolid.svg" width="20px" height="20px" class="mr-3">Save</a> 
+          </div> -->
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+</div>

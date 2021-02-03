@@ -1,0 +1,101 @@
+<!-- <div class="row">
+  <div class="col-md-6 col-xl-6">
+  </div>
+  <div class="col-md-6 col-xl-6">
+    <a class="btn btn-b-icon border-0"  routerLink="/MaturitypaymentNew">
+      <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+    </a>
+  </div>
+</div> -->
+
+
+<div class="row mt-4 py-1">
+    <div class="col d-flex flex-wrap align-items-center">
+        <a  class="btn btn-b-icon border-0" routerLink="/MaturitypaymentNew">
+          <img width="20" height="20" class="mr-2" src="assets/images/icon-add-white.svg">New
+        </a>
+       </div>
+</div>
+<div class="row mt-2">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+      <div class="row mt-2">
+        <div class="col-md-12 col-xl-12">
+          <ngx-datatable class="material expandable table" [rows]="GridList" [headerHeight]="60" [footerHeight]="50" width="300"
+                         [scrollbarH]="true" [selected]="" rowHeight="auto"
+                         [limit]="commencementgridPage.size" [count]="commencementgridPage.totalElements"
+                         [columnMode]="'force'"
+                         [offset]="commencementgridPage.pageNumber">
+
+
+            <ngx-datatable-column name="Member" prop="pMembername" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Member Code" prop="pMembercode"  [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Advance Account No." prop="pFdaccountno"  [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+              <ng-template class="column-fixed" ngx-datatable-cell-template
+                           let-rowIndex="rowIndex" let-value="value" let-row="row" let-group="group">
+                <a (click)="GetAccountDetails(row)">{{row.pFdaccountno }}</a>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Maturity Payment Date." prop="pMaturitypaymentdate"  [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Advance Date." prop="pDepositdate"  [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Advance Amount" prop="pDepositamount" [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pDepositamount|mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Maturity Amount" prop="pMaturityamount"  [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pMaturityamount|mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Interest Payout." prop="pInterestpayout"  [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Tenure." width="100" prop="pTenure"  [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Paid Amount" width="120" prop="pPaidAmount"  [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pPaidAmount|mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Payment Type" prop="pPaymentType" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div *ngIf="row.pPaymentType == 'Payment'" class="text-success">
+                      {{row.pPaymentType}}
+                    </div>
+                    <div *ngIf="row.pPaymentType !== 'Payment'" class="text-primary">
+                      {{row.pPaymentType}}
+                    </div>
+                  </ng-template>
+
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal right animated slideInRight" id="add-detail">
+    <app-fd-transcation-details></app-fd-transcation-details>
+  </div>
+</div>

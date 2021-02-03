@@ -1,0 +1,351 @@
+<div class="row">
+  <div class="col-md-6 col-xl-6 ">
+    <p class="bc-2">Interest Payment</p>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-md-12 col-xl-12">
+    <div class="section-container">
+      <form [formGroup]="InterestPaymentForm" autocomplete="off">
+        <div class="row mt-2">
+          <div class="col-md-4 col-xl-4">
+            <label id="pSchemeId" title="Scheme Name">Scheme Name</label>
+            <select class="form-control" formControlName="pSchemeId" (change)="shemename_change($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pSchemeId }">
+              <option ng-selected="selected" value="">All</option>
+              <option *ngFor="let i of SchemeDetails" [value]="i.pSchemeId">{{i.pSchemename}}</option>
+
+            </select>
+            <div class="invalid-feedback">
+              <span *ngIf="InterestPaymentErrors.pSchemeId">{{InterestPaymentErrors?.pSchemeId}}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-xl-4">
+            <label id="padjustmenttype" title="Adjustment Type">Adjustment Type</label>
+            <select class="form-control" id="padjustmenttype" title="Adjustment Type" formControlName="padjustmenttype" (change)="adjustmentTypeChange($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.padjustmenttype }">
+              <option value="SELF" ng-selected="selected">SELF</option>
+              <option value="ADJUSTMENT" ng-selected="selected">ADJUSTMENT</option>
+            </select>
+            <div class="invalid-feedback">
+              <span *ngIf="InterestPaymentErrors.padjustmenttype">{{InterestPaymentErrors?.padjustmenttype}}</span>
+            </div>
+
+          </div>
+          
+          <div class="col-md-4 col-xl-4">
+            <label id="pFdAccNo" title="Advance Account Number">Advance Account Number</label>
+            <select class="form-control" id="pFdAccNo" formControlName="pFdAccNo" (change)="accno_change($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pFdAccNo }">
+
+              <option value="ALL" ng-selected="selected">All</option>
+              <option *ngFor="let i of AccNodetails" [value]="i.pFdAccNo">{{i.pFdAccNoMembername}}</option>
+            </select>
+            <div class="invalid-feedback">
+              <span *ngIf="InterestPaymentErrors.pFdAccNo">{{InterestPaymentErrors?.pFdAccNo}}</span>
+            </div>
+          </div>
+
+          <div class="col-md-12" *ngIf="showCompany">
+            <div class="row">
+              <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+                  <label id="pcompanyname" title="Company Name">Company Name</label>
+                  <select class="form-control" formControlName="pcompanyname" (change)="GetBranchDetailsIP($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pcompanyname }">
+                    <option ng-selected="selected" value="">Select</option>
+                    <option *ngFor="let i of CompanyDetails" [value]="i.pCompanyname">{{i.pCompanyname}}</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    <span *ngIf="InterestPaymentErrors.pcompanyname">{{InterestPaymentErrors?.pcompanyname}}</span>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-4 col-xl-4">
+                <div class="form-group">
+                  <label id="pbranchnamemain" title="Branch Name">Branch Name</label>
+                  <select class="form-control col-md-12" formControlName="pbranchnamemain"
+                          (change)="branchNameChange($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pbranchnamemain }">
+                    <option ng-selected="selected" value="">Select</option>
+                    <option *ngFor="let i of BranchDetails" [value]="i.pBranchname">{{i.pBranchname}}</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    <span *ngIf="InterestPaymentErrors.pbranchnamemain">{{InterestPaymentErrors?.pbranchnamemain}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+     
+
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4 col-xl-2 mt-1">
+                <div class="">
+                  <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd1" value="ASON" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pDatetype }"
+                           (change)="DatetypeChange('ASON')">
+                    <label id="pDatetype" title="AsOn" class="mt-2" for="interestd1"> As On </label>
+                  </div>
+                  <div class="invalid-feedback">
+                    <span *ngIf="InterestPaymentErrors.pDatetype">{{InterestPaymentErrors?.pDatetype}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-xl-2 mt-1">
+                <div class="">
+                  <div class="form-check form-check-inline mr-5  radio-btn-secondary">
+                    <input class="form-check-input" type="radio" name="pDatetype" formControlName="pDatetype" id="interestd2" value="BETWEEN"
+                           (change)="DatetypeChange('BETWEEN')" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pDatetype}">
+                    <label id="pDatetype" title="Between" class="mt-2" for="interestd2"> Between </label>
+                  </div>
+                  <div class="invalid-feedback">
+                    <span *ngIf="InterestPaymentErrors.pDatetype">{{InterestPaymentErrors?.pDatetype}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+
+              <div class="col-md-2  col-xl-2" *ngIf="showFrommonth">
+                <div class="form-group">
+                  <label id="pFromMonthOf" title="Month Of">From Month</label>
+
+                  <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                         bsDatepicker formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)"
+                         (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pFromMonthOf }">
+
+
+                  <!-- <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpFromConfig" #dp="bsDatepicker"
+                  bsDatepicker  formControlName="pFromMonthOf" (ngModelChange)="FromDateChange($event)"
+                  [ngClass]="{ 'is-invalid': InterestPaymentErrors.pFromMonthOf }"> -->
+
+
+
+                </div>
+              </div>
+
+              <div class="col-md-2  col-xl-2" *ngIf="showTomonth">
+                <div class="form-group">
+                  <label>{{displaytodate}}</label>
+                  <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                         bsDatepicker formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)"
+                         (onShown)="onOpenCalendar($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.pToMonthOf }">
+
+
+                  <!-- <input class="form-control col-md-12" type="text" value="" [bsConfig]="dpToConfig" #dp="bsDatepicker"
+                  bsDatepicker  formControlName="pToMonthOf" (ngModelChange)="ToDateChange($event)"
+                  [ngClass]="{ 'is-invalid': InterestPaymentErrors.pToMonthOf }"> -->
+                  <div *ngIf="validation" class="text-danger">
+                    please select a valid month
+                  </div>
+                </div>
+              </div>
+
+                <div class="col-md-4 col-xl-4">
+                    <label id="padjustmenttype" title="Type">Type</label>
+                    <select class="form-control" id="ptype" title="Type" formControlName="ptype" (change)="TypeChange($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.ptype }">
+    
+                      <option value="ALL" ng-selected="selected">All</option>
+                      <option value="PAYMENT" ng-selected="selected">Payment</option>
+                      <option value="NONPAYMENT" ng-selected="selected">Non Payment</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <span *ngIf="InterestPaymentErrors.ptype">{{InterestPaymentErrors?.ptype}}</span>
+                    </div>
+                  </div>
+              
+              <div class="justify-content-end mx-3 d-flex">
+                <div class="form-group mt-4 pt-2">
+                  <a aria-controls="hot" aria-selected="false" class=" btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowmemberdetails()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                    <span *ngIf="!isLoading">
+                      <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                           width="20px">
+                    </span> {{savebutton}}
+                  </a>
+                </div>
+              </div>
+             
+
+            </div>
+          </div>
+           <div class="col-md-12">
+            <div class="row">
+               <!--<div class="col-md-4 col-xl-4">
+                <label id="padjustmenttype" title="Type">Type</label>
+                <select class="form-control" id="ptype" title="Type" formControlName="ptype" (change)="TypeChange($event)" [ngClass]="{ 'is-invalid': InterestPaymentErrors.ptype }">
+
+                  <option value="ALL" ng-selected="selected">All</option>
+                  <option value="PAYMENT" ng-selected="selected">Payment</option>
+                  <option value="NONPAYMENT" ng-selected="selected">Non Payment</option>
+                </select>
+                <div class="invalid-feedback">
+                  <span *ngIf="InterestPaymentErrors.ptype">{{InterestPaymentErrors?.ptype}}</span>
+                </div>
+
+              </div>--> 
+              <!-- <div class="col-md-8 col-xl-8 justify-content-end pull-right">
+
+              </div>
+              <div class="col-md-8 col-xl-8 justify-content-end pull-right">
+                <div class="form-group mt-2 pt-3">
+
+                  <div class="col-md-12 col-xl-12 p-0 pull-right">
+                    <div class="form-group mt-2">
+                      <a aria-controls="hot" aria-selected="false" class="btn btn-b-icon px-3 border-0" data-toggle="tab" role="tab" (click)="GetShowmemberdetails()">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                        <span *ngIf="!isLoading">
+                          <img class="mr-3" height="20px" src="assets/images/reports-white.svg"
+                               width="20px">
+                        </span> {{savebutton}}
+                      </a>
+
+                    </div>
+                  </div>
+                  <hr class="light">
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="d-flex justify-content-end">
+        <img src="assets/images/pdf-icon-blue.svg " width="18px" class="pt-2" title="pdf" (click)="pdf()" style="cursor: pointer;" />
+
+      </div>
+
+
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+
+
+          <ngx-datatable id="gridData" class="material expandable table" [rows]="gridData" [headerHeight]="60" [footerHeight]="50" width="300" [groupRowsBy]="'pPaymentstatus'"
+                         [height]="" [scrollbarH]="true"
+                         [selected]="" rowHeight="auto" [limit]="10"
+                         [columnMode]="'force'" [groupExpansionDefault]="true">
+
+
+
+            <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+              <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                <div style="padding-left:5px;">
+                  <a [class.datatable-icon-right]="!expanded"
+                     [class.datatable-icon-down]="expanded"
+                     title="Expand/Collapse Group"
+                     (click)="toggleExpandGroup(group)">
+                    <b>{{ group.value[0].pPaymentstatus }}   </b>
+                  </a>
+
+                </div>
+              </ng-template>
+            </ngx-datatable-group-header>
+            <ngx-datatable-column width="130" name="Scheme Name" prop="pSchemename" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column width="130" name="Member" prop="pMembername" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column width="133" name="Advance Account No." prop="pFdaccountno" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+            </ngx-datatable-column>
+            <ngx-datatable-column width="120" name="Advance Amount" prop="pdepositeamount" [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pdepositeamount | mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column width="100" name="Advance Date" prop="pdepositedate" [cellClass]="'cell-center'"
+                                  [headerClass]="'header-center'">
+              <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pdepositedate | date:'dd-MM-yyyy'}}
+              </ng-template> -->
+            </ngx-datatable-column>
+            <ngx-datatable-column width="100" name="Maturity Date" prop="pmaturitydate" [cellClass]="'cell-center'"
+                                  [headerClass]="'header-center'">
+              <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pmaturitydate | date:'dd-MM-yyyy'}}
+              </ng-template> -->
+            </ngx-datatable-column>
+            <ngx-datatable-column width="200" name="Interest Rate/Value per 100" prop="pinterestrate" [cellClass]="'cell-center'"
+                                  [headerClass]="'header-center'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pinterestrate|mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column width="120" name="Interest Amount" prop="pIntrestamount" [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pIntrestamount|mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column width="110" name="TDS Amount" prop="pTdsamount" [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.pTdsamount | mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column width="120" name="Paid Amount" prop="ptotalamount" [cellClass]="'cell-right'"
+                                  [headerClass]="'header-right'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.ptotalamount|mycurrencypipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Bank Name" prop="pbankname" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Branch Name" prop="pbankbranch" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Voucher No." prop="pvoucherno" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <a (click)="getVoucherno(row)">{{row.pvoucherno}}</a>
+              </ng-template>
+
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Payment Date" prop="ppaymentdate" [cellClass]="'cell-center'"
+                                  [headerClass]="'header-center'">
+              <!-- <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.ppaymentdate | date:'dd-MM-yyyy'}}
+              </ng-template> -->
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Payment Type" prop="pmodeofpayment" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Payment Bank" prop="ppaybankname" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Branch Name" prop="ppaybankbranchname" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Cheque No." prop="ppaychequeno" [cellClass]="'cell-left'"
+                                  [headerClass]="'header-left'">
+
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
